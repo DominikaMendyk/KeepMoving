@@ -1,0 +1,21 @@
+# Flutter & Dart generated files
+.dart_tool/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+pubspec.lock.bak
+
+# IDEs & Editors
+.idea/
+*.iml
+.vscode
+
+# Android specific
+android/.gradle/
+android/local.properties
+android/app/build/
+android/.idea/
+
+# Platform specific
+windows/flutter/ephemeral/
