@@ -5,6 +5,7 @@ build/
 .flutter-plugins-dependencies
 .packages
 pubspec.lock.bak
+.metadata
 
 # IDEs & Editors
 .idea/
@@ -16,6 +17,22 @@ android/.gradle/
 android/local.properties
 android/app/build/
 android/.idea/
+
+# iOS specific
+ios/Flutter/ephemeral/
+ios/Pods/
+ios/.symlinks/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+xcuserdata/
+*.xcuserstate
+
+# macOS specific
+macos/Flutter/ephemeral/
+macos/DerivedData/
+.DS_Store
 
 # Platform specific
 windows/flutter/ephemeral/

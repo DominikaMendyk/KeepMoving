@@ -16,12 +16,19 @@ class NotificationService {
   bool get _supported =>
       !kIsWeb &&
       (defaultTargetPlatform == TargetPlatform.windows ||
-       defaultTargetPlatform == TargetPlatform.android);
+       defaultTargetPlatform == TargetPlatform.android ||
+       defaultTargetPlatform == TargetPlatform.iOS ||
+       defaultTargetPlatform == TargetPlatform.macOS);
 
   Future<void> init() async {
     if (!_supported) return;
     try {
       const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
+      const darwinInit = DarwinInitializationSettings(
+        requestAlertPermission: true,
+        requestBadgePermission: true,
+        requestSoundPermission: true,
+      );
       const windowsInit = WindowsInitializationSettings(
         appName: 'KeepMoving',
         appUserModelId: 'KeepMoving.Desktop.App',
@@ -31,6 +38,8 @@ class NotificationService {
       await _plugin.initialize(
         settings: const InitializationSettings(
           android: androidInit,
+          iOS: darwinInit,
+          macOS: darwinInit,
           windows: windowsInit,
         ),
       );
@@ -40,6 +49,25 @@ class NotificationService {
         final androidPlugin = _plugin.resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>();
         await androidPlugin?.requestNotificationsPermission();
+      }
+
+      // Request permissions on iOS and macOS
+      if (defaultTargetPlatform == TargetPlatform.iOS) {
+        final iosPlugin = _plugin.resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin>();
+        await iosPlugin?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+      } else if (defaultTargetPlatform == TargetPlatform.macOS) {
+        final macosPlugin = _plugin.resolvePlatformSpecificImplementation<
+            MacOSFlutterLocalNotificationsPlugin>();
+        await macosPlugin?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
       }
 
       _ready = true;
@@ -77,6 +105,8 @@ class NotificationService {
             importance: Importance.high,
             priority: Priority.high,
           ),
+          iOS: DarwinNotificationDetails(),
+          macOS: DarwinNotificationDetails(),
           windows: WindowsNotificationDetails(),
         ),
       );
