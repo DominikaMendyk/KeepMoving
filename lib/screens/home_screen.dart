@@ -6,6 +6,7 @@ import '../state/progress_controller.dart';
 import '../state/session_controller.dart';
 import '../widgets/progress_panel.dart';
 import 'session_screen.dart';
+import '../services/auth_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -33,9 +34,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('KeepMoving Dashboard'),
-        centerTitle: true,
-      ),
+      title: const Text('KeepMoving Dashboard'),
+      centerTitle: true,
+      actions: [
+        IconButton(
+          tooltip: 'Sign out',
+          icon: const Icon(Icons.logout),
+          onPressed: () => context.read<AuthService>().signOut(),
+        ),
+      ],
+    ),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 640),
