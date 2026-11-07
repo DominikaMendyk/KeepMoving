@@ -97,9 +97,23 @@ class _AuthScreenState extends State<AuthScreen> {
                     border: OutlineInputBorder(),
                   ),
                   onFieldSubmitted: (_) => _submit(),
-                  validator: (v) => (v == null || v.length < 6)
-                      ? 'At least 6 characters'
-                      : null,
+                  validator: (v) {
+                    if (v == null || v.isEmpty) {
+                      return 'Please enter a password';
+                    }
+                    if (_isSignUp) {
+                      if (v.length < 8) {
+                        return 'Must be at least 8 characters';
+                      }
+                      if (!RegExp(r'\d').hasMatch(v)) {
+                        return 'Must contain at least one digit';
+                      }
+                      if (!RegExp(r'[!@#$%^&*(),.?":{}|<_>]').hasMatch(v)) {
+                        return 'Must contain at least one special character';
+                      }
+                    }
+                    return null;
+                  },
                 ),
                 if (_error != null) ...[
                   const SizedBox(height: 12),

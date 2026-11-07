@@ -14,7 +14,7 @@ class SessionConfig {
     return SessionConfig(
       minutes: minutes,
       length: m(minutes),
-      waterEvery: m(20),
+      waterEvery: m(minutes >= 60 ? 60 : 20),
       stretchEvery: m(minutes <= 30 ? 15 : 30),
     );
   }
